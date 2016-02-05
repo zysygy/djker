@@ -1,0 +1,25 @@
+04/02/2016
+
+First attempt at how to implement core algo
+
+Storing Node Information
+-node name (or maybe it is simply sequential)
+-# neighbours
+-weights to those neighbours
+-for graph with n # of nodes, create array G of size n node objects
+-node objects consist of name, # of neighbours, array (maybe LL?) of neighbours + their weights + "visited" status
+
+Running Dijk
+-create array SP of size n, increasing element indexes are associated with increasing order of nodes in alphanumeric order
+-each element initialized to infinity except starting node (0) (either need a lib or a workaround)
+-maybe combine this with array G?
+--
+Rough Pseudocode
+for i = 1 to n
+    while there are still unvisited nodes
+	Add weight of current node to weight to get to neighbour
+        Compare and update values of neighbours in array SP if lower
+	Find unvisited node in G.neighbours[] with lowest weight in SP
+--
+
+Internet says I should do try this with queues
