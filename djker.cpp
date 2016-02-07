@@ -1,7 +1,24 @@
+/*a37chen
+
+Visual Implementation of Dijkstra's Algo for shortest path between nodes in a weighted graph
+
+Mostly doing this because I am poop at coding and I was assigned to do this by the Big K
+
+Things practiced/learned:
+Includes
+Namespaces
+Templates(?)
+Pointers(?)
+
+*/
+
 #include <vector>
+#include <string>
+#include <iostream>
 
 using namespace std;
 
+//This could (and should?) probably be a class with access functions, but let's worry about that later
 struct edge {
 	int dest;
 	int wt;
@@ -9,14 +26,18 @@ struct edge {
 
 int main (){
 
+	//Set the endpoints of the algorithm
+	int start = 0;
+	int end = 0;
+	
 	//Graph is vector of edge lists (arrays)
 	//Each member of vector is a node in the graph
 	
-	vector<neighbour*> graph = vector<neighbour*>();
+	vector<edge*> graph = vector<edge*>();
 	
+	////////////////////////////////
 	//Hard code the graph for now
 	//a1 = node 1, b2 = node 2, etc
-	
 	edge a1[2];
 	a1[0].dest = 4;
 	a1[0].wt =  8;
@@ -62,8 +83,16 @@ int main (){
 	f6[1].dest = 5;
 	f6[1].wt = 3;
 	graph.push_back (f6);
-
-	//
+	////////////////////////////////
+	
+	//Visted Queue
+	//Take nodes from vector and vist them 1 by 10
+	
+	//Shortest Path Array
+	//Store shortest paths to each node so farcalloc
+	//Need to overload operators to manipulations with infinity
+	
+	cout << "test" << endl;
 	
 	return 0;
 
