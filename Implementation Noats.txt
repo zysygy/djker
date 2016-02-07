@@ -23,3 +23,9 @@ for i = 1 to n
 --
 
 Internet says I should do try this with queues
+
+06/02/2016
+
+For representing the graph itself, let's go with an adjacency list, though this solution looks cool http://stackoverflow.com/a/12305436
+
+Vector of arrays is probably best
