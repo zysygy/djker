@@ -29,3 +29,17 @@ Internet says I should do try this with queues
 For representing the graph itself, let's go with an adjacency list, though this solution looks cool http://stackoverflow.com/a/12305436
 
 Vector of arrays is probably best
+
+07/02/2016
+
+Well I lost the assignment deadline. Oh well
+
+2D Vector was the solution. Learned some fancy and syntactically pleasing ways of initializing the vectors.
+
+Core algo is done now, implementation mostly lifted from some pseudocode from Wikipedia
+
+17/02/2016
+
+Busy with CNY and sick past couple weeks
+After discussion, we're not going to implement infinity for now due to storage issues, though in future we could try something like QVariant from qt
+Let's just get first implementation up and running

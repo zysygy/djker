@@ -15,8 +15,8 @@ Pointers(?)
 #include <vector>
 #include <string>
 #include <iostream>
-#include <array>
 #include <stack>
+#include <infinity.h>
 
 using namespace std;
 
@@ -85,33 +85,39 @@ int main (){
 	*/
 	////////////////////////////////
 	
+	int gSize = graph.size();
+	
 	//Shortest Path Array
 	//Store shortest paths to each node so far
-	//Need to overload operators for manipulations with infinity
-	//Initialize to 0 for starting point and infinity for the rest
-	int dist [graph.size()];
+	//Initialize to 0 for starting point and "infinity" for the rest
+	int dist [gSize];
 	
-	/*Initialize here*/
-	
-	//Previous node in shortest path from start node
-	int prev [graph.size()];
-	
-	for (int i = 0; i<graph.size(); i++){
-		prev[i] = -1; //let -1 be consdiered undefined
+	for (int i = 0; i<gSize; i++){
+		dist [i] = -1; //let -1 to be considered +inf
 	}
 	
+	//Previous node in shortest path from start node
+	int prev [gSize];
+	
+	for (int i = 0; i<gSize; i++){
+		prev[i] = -1; //let -1 be considered undefined
+	}
 	
 	//Misc other variables for algo
 	
-	//Need change for infinity
 	int curNode = 0;
 	int testWt = 0;
 	vector<edge> curEdList;
 	
 	while (!graph.empty()){
 		//Find node closest to source
-		for (int i = 0; i < graph.size(); i++){
-			if (dist[i] < dist[curNode]) curNode = i;
+		for (int i = 0; i < gSize; i++){
+			if (dist[i] == 0) { //First pass, find start
+				curNode = i;
+			}
+			else if (dist[i] < dist[curNode] && dist[i] != -1) {
+				curNode = i;
+			}
 		}
 		curEdList = graph[curNode];
 		//Remove from vector to mark as visited
