@@ -126,13 +126,17 @@ int main (){
 	}*/
 	
 	int visitCount = 0;
-	while (visitCount <= gSize){
+	while (visitCount < gSize){
 		//Find node closest to source
 		for (int i = 0; i < gSize; i++){
 			//First node is special case
-			if ((dist[i] == 0 || dist[i] < dist[curNode])&& !visited[i]) {
+			cout << "here" << endl;
+			if (dist[i] == 0 && !visited[i]) {
 				curNode = i;
 				break;
+			}
+			else if ((dist[i] < dist[curNode]) && !visited[i]) {
+				curNode = i;
 			}
 		}
 
