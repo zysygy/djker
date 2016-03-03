@@ -130,12 +130,15 @@ int main (){
 		//Find node closest to source
 		for (int i = 0; i < gSize; i++){
 			//First node is special case
-			cout << "here" << endl;
 			if (dist[i] == 0 && !visited[i]) {
 				curNode = i;
 				break;
 			}
-			else if ((dist[i] < dist[curNode]) && !visited[i]) {
+			//Problem is here
+			//Nodes never move from dist[0] since it's always smaller
+			//Need to somehow remove the node at each pass
+			//Maybe change the curnode after for loop at line 157
+			else if ((dist[i] < dist[curNode]) && !visited[i] && (dist[i] > 0)) {
 				curNode = i;
 			}
 		}
@@ -148,6 +151,7 @@ int main (){
 			testWt = dist[curNode] + curEdList[i].wt;
 			if (testWt < dist[curEdList[i].dest-1] || dist[curEdList[i].dest-1] == -1){
 				dist[curEdList[i].dest-1] = testWt;
+				cout << "Weight is: " << testWt << endl;
 				prev[curEdList[i].dest-1] = curNode;
 			}
 		}
