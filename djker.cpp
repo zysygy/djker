@@ -25,17 +25,18 @@ typedef struct {
 	int wt;
 } edge;
 
+typedef struct {
+	int id = 0;
+	vector<edge> *edList = {};
+} vertex;
+
 int main (){
 
 	//Set the endpoints of the algorithm
 	int startNode = 0;
 	int endNode = 2;
 	
-	//Graph is vector of edge lists (arrays)
-	//Vector and Lists each have their own +/-
-	//Each member of vector is a node in the graph
-	
-	vector<vector<edge> > graph; //cannot do vector<vector<edge>> graph;
+	vector<vertex> graph;
 	
 	//not vector<vector<edge> > graph(); 
     //http://stackoverflow.com/questions/877523/error-request-for-member-in-which-is-of-non-class-type
@@ -44,41 +45,59 @@ int main (){
 	//Hard code the graph for now
 	//a1 = node 1, b2 = node 2, etc
 	
+	vertex a;
+	a.id = 1;
 	vector<edge> a1(2);
 	a1[0] = {4, 8}; // same as a1[0].dest = 4; a1[0].wt = 8;
 	a1[1] = {6, 6};
-	graph.push_back (a1);
+	a.edList = &a1;
+	graph.push_back (a);
 	
+	vertex b;
+	b.id = 2;
 	vector<edge> b2(2);
 	b2[0] = {3, 10};
 	b2[1] = {4, 4};
-	graph.push_back (b2);
+	b.edList = &b2;
+	graph.push_back (b);
 	
+	vertex c;
+	b.id = 3;
 	vector<edge> c3(3);
 	c3[0] = {2, 10};
 	c3[1] = {4, 7};
 	c3[2] = {5, 1};
-	graph.push_back (c3);
+	c.edList = &c3;
+	graph.push_back (c);
 
+	vertex d;
+	d.id = 4;
 	vector<edge> d4(3);
 	d4[0] = {1, 8};
 	d4[1] = {2, 4};
 	d4[2] = {3, 7};
-	graph.push_back (d4);
+	d.edList = &d4;
+	graph.push_back (d);
 	
+	vertex e;
+	e.id = 5;
 	vector<edge> e5(2);
 	e5[0] = {3, 1};
 	e5[1] = {6, 3};
-	graph.push_back (e5);
+	e.edList = &e5;
+	graph.push_back (e);
 	
+	vertex f;
+	f.id = 6;
 	vector<edge> f6(2);
 	f6[0] = {1, 6};
 	f6[1] = {5, 3};
-	graph.push_back (f6);
+	f.edList = &f6;
+	graph.push_back (f);
 	
 	/*
 	Direct initialization approach
-	vector <vector<edge>> graph
+	vector < vector<edge>> graph
 	{ {{4,8}, {6,6}}
 	  {{4,8}, {6,6}}
 	 .
@@ -105,54 +124,42 @@ int main (){
 		prev[i] = -1; //let -1 be considered undefined
 	}
 	
-	//Visited Array
-	
-	bool visited[gSize];
-	for (int i = 0; i < gSize; i++){
-		visited[i] = false;
-	}
-	
 	//Misc other variables for algo
 	int curNode = 0;
 	int testWt = 0;
-	vector<edge> curEdList;
-	
-	/*Debug
+	int curID = 0;
+	vertex tempVertex;
+	vector<edge>* tempEdList;
+	int tempWt = 0;
+	int tempDest = 0;
 	
 	while (!graph.empty()){
-		curEdList = graph[0];
-		cout<< curEdList[0].dest << " " << curEdList[0].wt << endl;
-		graph.erase(graph.begin());
-	}*/
-	
-	int visitCount = 0;
-	while (visitCount < gSize){
 		//Find node closest to source
-		for (int i = 0; i < gSize; i++){
+		curNode = 0;
+		for (int i = 0; i < graph.size(); i++){
 			//First node is special case
-			if (dist[i] == 0 && !visited[i]) {
+			if (dist[i] == 0) {
 				curNode = i;
 				break;
 			}
-			//Problem is here
-			//Nodes never move from dist[0] since it's always smaller
-			//Need to somehow remove the node at each pass
-			//Maybe change the curnode after for loop at line 157
-			else if ((dist[i] < dist[curNode]) && !visited[i] && (dist[i] > 0)) {
+			else if (((dist[i] < dist[curNode]) && dist[i] >= 0) || (dist[curNode] < 0)) {
 				curNode = i;
 			}
 		}
+		
+		tempVertex = graph[curNode];
+		tempEdList = tempVertex.edList;
+		curID = tempVertex.id-1; 
+		graph.erase(graph.begin()+curNode);
 
-		curEdList = graph[curNode];
-
-		visited[curNode] = true;
-		visitCount++;
-		for (int i = 0; i < curEdList.size(); i++){
-			testWt = dist[curNode] + curEdList[i].wt;
-			if (testWt < dist[curEdList[i].dest-1] || dist[curEdList[i].dest-1] == -1){
-				dist[curEdList[i].dest-1] = testWt;
-				cout << "Weight is: " << testWt << endl;
-				prev[curEdList[i].dest-1] = curNode;
+		//Update distance values for all neighbours
+		for (int i = 0; i < tempEdList->size(); i++){
+			tempWt = tempEdList->at(i).wt;
+			tempDest = tempEdList->at(i).dest-1;
+			testWt = dist[curID] + tempWt;
+			if (testWt < dist[tempDest] || dist[tempDest] < 0){
+				dist[tempDest] = testWt;
+				prev[tempDest] = curID+1;
 			}
 		}
 	}
@@ -182,7 +189,6 @@ int main (){
 	//cout << "test" << endl;
 	
 	*/
-	
 	
 	return 0;
 
