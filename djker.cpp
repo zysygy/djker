@@ -62,7 +62,7 @@ int main (){
 	graph.push_back (b);
 	
 	vertex c;
-	b.id = 3;
+	c.id = 3;
 	vector<edge> c3(3);
 	c3[0] = {2, 10};
 	c3[1] = {4, 7};
@@ -124,44 +124,61 @@ int main (){
 		prev[i] = -1; //let -1 be considered undefined
 	}
 	
+	bool visited[gSize];
+	for (int i = 0; i<gSize; i++){
+		visited[i] = false;
+	} 
+	
 	//Misc other variables for algo
-	int curNode = 0;
+	int index = 0;
+	int testID = 0;
 	int testWt = 0;
 	int curID = 0;
-	vertex tempVertex;
 	vector<edge>* tempEdList;
 	int tempWt = 0;
 	int tempDest = 0;
 	
 	while (!graph.empty()){
 		//Find node closest to source
-		curNode = 0;
+		index = 0;
+		curID = graph[0].id - 1;
 		for (int i = 0; i < graph.size(); i++){
-			//First node is special case
-			if (dist[i] == 0) {
-				curNode = i;
+			testID = graph[i].id - 1;
+			if (dist[testID] == 0 && !visited[testID]) {
+				curID = testID;
+				tempEdList = graph[i].edList;
+				//cout << "ID: " << curID+1 << endl;
 				break;
 			}
-			else if (((dist[i] < dist[curNode]) && dist[i] >= 0) || (dist[curNode] < 0)) {
-				curNode = i;
+			else if ((((dist[testID] < dist[curID]) && dist[testID] > 0) || (dist[curID] < 0)) 
+						&& !visited[testID]) {
+				
+				curID = testID;
+				tempEdList = graph[i].edList;
 			}
 		}
-		
-		tempVertex = graph[curNode];
-		tempEdList = tempVertex.edList;
-		curID = tempVertex.id-1; 
-		graph.erase(graph.begin()+curNode);
+		visited[curID] = true;
+		//deletion problem again
+		graph.erase(graph.begin()+curID);
+		cout << "ID: " << curID+1 << endl;
 
 		//Update distance values for all neighbours
 		for (int i = 0; i < tempEdList->size(); i++){
 			tempWt = tempEdList->at(i).wt;
 			tempDest = tempEdList->at(i).dest-1;
 			testWt = dist[curID] + tempWt;
-			if (testWt < dist[tempDest] || dist[tempDest] < 0){
+			if (curID == 3) cout << "Node 4 wt: " << tempWt << endl;
+			if (testWt < dist[tempDest] || dist[tempDest] < 0) {
 				dist[tempDest] = testWt;
 				prev[tempDest] = curID+1;
 			}
 		}
+		for (int i = 0; i<gSize; i++){
+			cout << "Dist: " << dist[i] << endl;
+			
+		}
+		//somethings goes wrong if you are the last node
+		
 	}
 	
 	//Reverse through the optimal path from the end node and store on stack
