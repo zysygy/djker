@@ -43,3 +43,27 @@ Core algo is done now, implementation mostly lifted from some pseudocode from Wi
 Busy with CNY and sick past couple weeks
 After discussion, we're not going to implement infinity for now due to storage issues, though in future we could try something like QVariant from qt
 Let's just get first implementation up and running
+
+20/3/2016
+
+The Deletion problem
+
+Originally when implementing the algorithm, I used some pseudocode that cleverly deleted elements from the graph
+to mark them as "visited" nodes. However, I mishandled how I referenced the nodes to be selected at each iteration of the loop.
+Ideally, the algorithm should attempt to find the element in the graph that has the lowest distance not been visited. Since
+the distances to each node and the graph itself were stored in separate data structures (one an array, the other a separate vector)
+I kept on missing the index of the node that was actually being selected for a round whenever there was a deletion.
+
+eg. If at a certain iteration of the loop the 3rd node is picked, after it is done it is deleted from the graph. Since I used direct indices of the vector
+to select the node (ie. I assumed graph[3] would always give me the 4th node of the graph), this would me to select the wrong node since everything shifted down
+one after the deletion
+
+As a temporary stop-gap to just make things work, I created a "visited" array to explicitly track which elements had been visited.
+
+Due to the deletion problem shifting the orders of the elements, I had troubles keeping track of which element in the graph I would end up picking. Fortunately,
+I ended up figuring out that I could just update a temporary pointer to the vertex as we went along, only updating it when it was found to be a shorter distance
+than the currently selected node.
+
+As a result, the code is pretty jumbled with a lot of unncessary code and would definitely need an additional code pass to tighten things up. The clunkiness
+mainly surrounds the initial node selection; the subsequent updating of the distance array is fairly good.
+
